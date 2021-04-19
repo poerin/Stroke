@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD432871-EE0A-4448-A56C-202D4F401174}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Stroke.Configure</RootNamespace>
+    <AssemblyName>Stroke.Configure</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Stroke.Configure.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CompileConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompileConfigure.Designer.cs">
+      <DependentUpon>CompileConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configure.Designer.cs">
+      <DependentUpon>Configure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FiltrationConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FiltrationConfigure.Designer.cs">
+      <DependentUpon>FiltrationConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GestureCanvas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestureCanvas.Designer.cs">
+      <DependentUpon>GestureCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GestureConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestureConfigure.Designer.cs">
+      <DependentUpon>GestureConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PenConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PenConfigure.Designer.cs">
+      <DependentUpon>PenConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CompileConfigure.resx">
+      <DependentUpon>CompileConfigure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configure.resx">
+      <DependentUpon>Configure.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltrationConfigure.resx">
+      <DependentUpon>FiltrationConfigure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestureCanvas.resx">
+      <DependentUpon>GestureCanvas.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestureConfigure.resx">
+      <DependentUpon>GestureConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PenConfigure.resx">
+      <DependentUpon>PenConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stroke\Stroke.csproj">
+      <Project>{4bf7e1c7-8683-47a3-99ff-76eceda97bb4}</Project>
+      <Name>Stroke</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Stroke.Configure.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
