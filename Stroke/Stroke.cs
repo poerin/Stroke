@@ -17,6 +17,7 @@ namespace Stroke
         private bool stroked = false;
         private bool special = false;
         private bool abolish = false;
+        private bool filtering = false;
         private Point lastPoint = new Point(0, 0);
         private List<Point> drwaingPoints = new List<Point>();
         private readonly int threshold = 80;
@@ -92,6 +93,7 @@ namespace Stroke
                     {
                         if (Regex.IsMatch(CurrentProcessImagePath, filtration))
                         {
+                            filtering = true;
                             return false;
                         }
                     }
@@ -105,6 +107,12 @@ namespace Stroke
                 {
                     stroking = false;
                     this.TopMost = false;
+
+                    if (filtering)
+                    {
+                        filtering = false;
+                        return false;
+                    }
 
                     if (abolish)
                     {
