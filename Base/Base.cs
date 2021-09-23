@@ -593,7 +593,7 @@ namespace Stroke
             input.ki.time = 0;
             input.ki.wVk = (API.VirtualKeyCodes)key;
             input.ki.dwExtraInfo = (UIntPtr)0;
-            input.ki.dwFlags = 0;
+            input.ki.dwFlags = API.KEYEVENTF.EXTENDEDKEY | 0;
             input.ki.wScan = 0;
             API.SendInput(1u, ref input, Marshal.SizeOf(typeof(API.INPUT)));
         }
@@ -605,7 +605,7 @@ namespace Stroke
             input.ki.time = 0;
             input.ki.wVk = (API.VirtualKeyCodes)key;
             input.ki.dwExtraInfo = (UIntPtr)0;
-            input.ki.dwFlags = API.KEYEVENTF.KEYUP;
+            input.ki.dwFlags = API.KEYEVENTF.EXTENDEDKEY | API.KEYEVENTF.KEYUP;
             input.ki.wScan = 0;
             API.SendInput(1u, ref input, Marshal.SizeOf(typeof(API.INPUT)));
         }
