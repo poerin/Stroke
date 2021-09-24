@@ -25,8 +25,6 @@ namespace Stroke
                 return;
             }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Stroke = new Stroke();
             MouseHook.StartHook();
             Script.CompileScript();

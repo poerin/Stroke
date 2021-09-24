@@ -48,11 +48,10 @@ namespace Stroke
 
         public Stroke()
         {
+            API.SetWindowLong(this.Handle, API.WindowLong.GWL_EXSTYLE, API.GetWindowLong(this.Handle, API.WindowLong.GWL_EXSTYLE) | (int)(API.WindowStylesExtended.WS_EX_TRANSPARENT | API.WindowStylesExtended.WS_EX_LAYERED | API.WindowStylesExtended.WS_EX_NOACTIVATE));
             InitializeComponent();
 
             draw = new Draw(this.Handle, API.CreatePen(API.PenStyle.PS_SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
-            this.Shown += Stroke_Shown;
-            this.FormClosing += Stroke_FormClosing;
             MouseHook.MouseAction += MouseHook_MouseAction;
             Settings.Pen.PenChanged += Pen_PenChanged;
             API.AllowSetForegroundWindow((uint)Process.GetCurrentProcess().Id);
@@ -63,16 +62,6 @@ namespace Stroke
             draw.Dispose();
             GC.Collect();
             draw = new Draw(this.Handle, API.CreatePen(API.PenStyle.PS_SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
-        }
-
-        private void Stroke_Shown(object sender, EventArgs e)
-        {
-            API.SetWindowLong(this.Handle, API.WindowLong.GWL_EXSTYLE, API.GetWindowLong(this.Handle, API.WindowLong.GWL_EXSTYLE) | (int)(API.WindowStylesExtended.WS_EX_TRANSPARENT | API.WindowStylesExtended.WS_EX_LAYERED | API.WindowStylesExtended.WS_EX_NOACTIVATE));
-        }
-
-        private void Stroke_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            draw.Dispose();
         }
 
         private bool MouseHook_MouseAction(MouseHook.MouseActionArgs args)
