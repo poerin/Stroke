@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Stroke
 {
-    public partial class Stroke : Form
+    public class Stroke : Form
     {
         private Draw draw;
         private bool stroking = false;
@@ -99,6 +99,8 @@ namespace Stroke
                 else if (args.MouseButtonState == MouseHook.MouseButtonStates.Up)
                 {
                     stroking = false;
+                    draw.Clear();
+                    Refresh();
                     Visible = false;
                     TopMost = false;
 
@@ -115,8 +117,6 @@ namespace Stroke
                         abolish = false;
                         return true;
                     }
-
-                    Refresh();
 
                     if (stroked)
                     {
