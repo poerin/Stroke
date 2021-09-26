@@ -906,6 +906,10 @@ namespace Stroke
         public static extern bool UnhookWindowsHookEx(IntPtr hHook);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UpdateWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr WindowFromPoint(POINT Point);
 
 

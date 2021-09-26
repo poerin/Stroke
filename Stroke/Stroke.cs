@@ -90,7 +90,7 @@ namespace Stroke
                 return;
             }
 
-            Handle = API.CreateWindowEx(API.WS_EX.TRANSPARENT | API.WS_EX.NOACTIVATE | API.WS_EX.LAYERED, WindowClass.lpszClassName, null, API.WS.CLIPCHILDREN | API.WS.CLIPSIBLINGS | API.WS.POPUP, Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height, IntPtr.Zero, IntPtr.Zero, WindowClass.hInstance, IntPtr.Zero);
+            Handle = API.CreateWindowEx(API.WS_EX.TRANSPARENT | API.WS_EX.NOACTIVATE | API.WS_EX.LAYERED | API.WS_EX.TOPMOST, WindowClass.lpszClassName, null, API.WS.CLIPCHILDREN | API.WS.CLIPSIBLINGS | API.WS.POPUP, Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height, IntPtr.Zero, IntPtr.Zero, WindowClass.hInstance, IntPtr.Zero);
             if (Handle == IntPtr.Zero)
             {
                 return;
@@ -101,6 +101,9 @@ namespace Stroke
             draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
             MouseHook.MouseAction += MouseHook_MouseAction;
             Settings.Pen.PenChanged += Pen_PenChanged;
+
+            API.ShowWindow(Handle, API.SW.NORMAL);
+            API.UpdateWindow(Handle);
 
             API.MSG message = new API.MSG();
             while (API.GetMessage(out message, IntPtr.Zero, 0, 0))
@@ -140,8 +143,7 @@ namespace Stroke
                         }
                     }
                     stroking = true;
-                    API.SetWindowPos(Handle, API.IA.TOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE);
-                    API.ShowWindow(Handle, API.SW.SHOW);
+
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
@@ -150,8 +152,6 @@ namespace Stroke
                 {
                     stroking = false;
                     draw.Clear();
-                    API.SetWindowPos(Handle, API.IA.NOTOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE);
-                    API.ShowWindow(Handle, API.SW.HIDE);
 
                     if (filtering)
                     {
@@ -206,10 +206,10 @@ namespace Stroke
                                     {
                                         if (action.Gesture == Settings.Gestures[index].Name)
                                         {
-                                            drwaingPoints.Clear();
                                             Script.RunScript($"{Settings.ActionPackages[i].Name}.{action.Name}", mark);
                                             mark = 0;
                                             stroked = false;
+                                            drwaingPoints.Clear();
                                             return true;
                                         }
                                     }
