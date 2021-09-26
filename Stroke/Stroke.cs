@@ -10,68 +10,121 @@ using System.Windows.Forms;
 
 namespace Stroke
 {
-    public partial class Stroke : Form
+    public static class Stroke
     {
-        private Draw draw;
-        private bool stroking = false;
-        private bool stroked = false;
-        private bool special = false;
-        private bool abolish = false;
-        private bool filtering = false;
-        private Point lastPoint = new Point(0, 0);
-        private List<Point> drwaingPoints = new List<Point>();
-        private readonly int threshold = 80;
-        private int mark = 0;
-        public static IntPtr CurrentWindow;
-        public static string CurrentProcessImagePath;
-        public static Point KeyPoint;
+        private static IntPtr Handle;
+        private static Rectangle Bounds;
+        private static Draw draw;
+        private static bool stroking = false;
+        private static bool stroked = false;
+        private static bool special = false;
+        private static bool abolish = false;
+        private static bool filtering = false;
+        private static Point lastPoint = new Point(0, 0);
+        private static List<Point> drwaingPoints = new List<Point>();
+        private static readonly int threshold = 80;
+        private static int mark = 0;
+        public static IntPtr CurrentWindow { private set; get; }
+        public static string CurrentProcessImagePath { private set; get; }
+        public static Point KeyPoint { private set; get; }
 
-        private void InitializeComponent()
+
+        private static IntPtr WindowProcedure(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam)
         {
-            this.SuspendLayout();
-            this.AutoScaleDimensions = new SizeF(96F, 96F);
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.BackColor = Color.Black;
-            this.Bounds = SystemInformation.VirtualScreen;
-            this.ControlBox = false;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "Stroke";
-            this.Opacity = Settings.Pen.Opacity;
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.StartPosition = FormStartPosition.Manual;
-            this.TransparencyKey = Color.Black;
-            this.ResumeLayout(false);
+            switch (uMsg)
+            {
+                case (uint)API.WindowMessages.WM_CREATE:
+                    Script.CompileScript();
+                    MouseHook.StartHook();
+                    break;
+                case (uint)API.WindowMessages.WM_CLOSE:
+                    API.DestroyWindow(hWnd);
+                    break;
+                case (uint)API.WindowMessages.WM_DESTROY:
+                    MouseHook.StopHook();
+                    draw.Dispose();
+                    API.PostQuitMessage(0);
+                    break;
+            }
+
+            return API.DefWindowProc(hWnd, uMsg, wParam, lParam);
         }
 
-        public Stroke()
+        [STAThread]
+        static void Main()
         {
-            InitializeComponent();
-            API.SetWindowLong(this.Handle, API.WindowLong.GWL_EXSTYLE, API.GetWindowLong(this.Handle, API.WindowLong.GWL_EXSTYLE) | (int)(API.WindowStylesExtended.WS_EX_TRANSPARENT | API.WindowStylesExtended.WS_EX_LAYERED | API.WindowStylesExtended.WS_EX_NOACTIVATE));
+            try
+            {
+                if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
+                {
+                    return;
+                }
+                Settings.ReadSettings();
+            }
+            catch
+            {
+                return;
+            }
 
-            draw = new Draw(this.Handle, API.CreatePen(API.PenStyle.PS_SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
+            Bounds = SystemInformation.VirtualScreen;
+
+            uint LWA_COLORKEY = 0x1;
+            uint LWA_ALPHA = 0x2;
+
+            API.WNDCLASSEX WindowClass = new API.WNDCLASSEX();
+            WindowClass.cbSize = (uint)Marshal.SizeOf(typeof(API.WNDCLASSEX));
+            WindowClass.style = API.CS.VREDRAW | API.CS.HREDRAW;
+            WindowClass.lpfnWndProc = WindowProcedure;
+            WindowClass.cbClsExtra = 0;
+            WindowClass.cbWndExtra = 0;
+            WindowClass.hInstance = API.GetModuleHandle(null);
+            WindowClass.hIcon = IntPtr.Zero;
+            WindowClass.hCursor = IntPtr.Zero;
+            WindowClass.hbrBackground = API.CreateSolidBrush(new API.COLORREF(0, 0, 0));
+            WindowClass.lpszMenuName = "";
+            WindowClass.lpszClassName = "Stroke";
+            WindowClass.hIconSm = IntPtr.Zero;
+
+            if (API.RegisterClassEx(ref WindowClass) == 0)
+            {
+                return;
+            }
+
+            Handle = API.CreateWindowEx(API.WS_EX.TRANSPARENT | API.WS_EX.NOACTIVATE | API.WS_EX.LAYERED, WindowClass.lpszClassName, null, API.WS.CLIPCHILDREN | API.WS.CLIPSIBLINGS | API.WS.POPUP, Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height, IntPtr.Zero, IntPtr.Zero, WindowClass.hInstance, IntPtr.Zero);
+            if (Handle == IntPtr.Zero)
+            {
+                return;
+            }
+
+            API.SetLayeredWindowAttributes(Handle, new API.COLORREF(0, 0, 0), (byte)(255 * Settings.Pen.Opacity), LWA_COLORKEY | LWA_ALPHA);
+
+            draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
             MouseHook.MouseAction += MouseHook_MouseAction;
             Settings.Pen.PenChanged += Pen_PenChanged;
-            API.AllowSetForegroundWindow((uint)Process.GetCurrentProcess().Id);
+
+            API.MSG message = new API.MSG();
+            while (API.GetMessage(out message, IntPtr.Zero, 0, 0))
+            {
+                API.TranslateMessage(ref message);
+                API.DispatchMessage(ref message);
+            }
         }
 
-        private void Pen_PenChanged()
+        private static void Pen_PenChanged()
         {
             draw.Dispose();
             GC.Collect();
-            draw = new Draw(this.Handle, API.CreatePen(API.PenStyle.PS_SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
+            draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
         }
 
-        private bool MouseHook_MouseAction(MouseHook.MouseActionArgs args)
+        private static bool MouseHook_MouseAction(MouseHook.MouseActionArgs args)
         {
             if (args.MouseButton == Settings.StrokeButton)
             {
                 if (args.MouseButtonState == MouseHook.MouseButtonStates.Down)
                 {
                     KeyPoint = args.Location;
-                    CurrentWindow = API.GetAncestor(API.WindowFromPoint(new API.POINT(KeyPoint.X, KeyPoint.Y)), API.GetAncestorFlags.GA_ROOT);
+                    CurrentWindow = API.GetAncestor(API.WindowFromPoint(new API.POINT(KeyPoint.X, KeyPoint.Y)), API.GA.ROOT);
                     API.GetWindowThreadProcessId(CurrentWindow, out uint pid);
                     IntPtr hProcess = API.OpenProcess(API.AccessRights.PROCESS_QUERY_INFORMATION, false, pid);
                     StringBuilder path = new StringBuilder(1024);
@@ -87,7 +140,8 @@ namespace Stroke
                         }
                     }
                     stroking = true;
-                    this.TopMost = true;
+                    API.SetWindowPos(Handle, API.IA.TOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE);
+                    API.ShowWindow(Handle, API.SW.SHOW);
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
@@ -95,7 +149,9 @@ namespace Stroke
                 else if (args.MouseButtonState == MouseHook.MouseButtonStates.Up)
                 {
                     stroking = false;
-                    this.TopMost = false;
+                    draw.Clear();
+                    API.SetWindowPos(Handle, API.IA.NOTOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE);
+                    API.ShowWindow(Handle, API.SW.HIDE);
 
                     if (filtering)
                     {
@@ -111,7 +167,6 @@ namespace Stroke
                         return true;
                     }
 
-                    this.Refresh();
                     if (stroked)
                     {
                         Gesture gesture = new Gesture("", drwaingPoints);
@@ -151,10 +206,10 @@ namespace Stroke
                                     {
                                         if (action.Gesture == Settings.Gestures[index].Name)
                                         {
+                                            drwaingPoints.Clear();
                                             Script.RunScript($"{Settings.ActionPackages[i].Name}.{action.Name}", mark);
                                             mark = 0;
                                             stroked = false;
-                                            drwaingPoints.Clear();
                                             return true;
                                         }
                                     }
@@ -259,7 +314,7 @@ namespace Stroke
                                 if (action.Gesture == gesture)
                                 {
                                     abolish = true;
-                                    this.Refresh();
+                                    draw.Clear();
                                     drwaingPoints.Clear();
                                     Script.RunScript($"{Settings.ActionPackages[i].Name}.{action.Name}", mark);
                                     return true;
@@ -294,57 +349,52 @@ namespace Stroke
 
         private static void ClickStrokeButton()
         {
-            var task = Task.Run(() =>
+            Task.Run(() =>
             {
-                MouseHook.StopHook();
-                API.INPUT imput = new API.INPUT();
-                imput.type = API.INPUTTYPE.MOUSE;
-                imput.mi.dx = 0;
-                imput.mi.dy = 0;
-                imput.mi.mouseData = 0;
-                imput.mi.time = 0u;
-                imput.mi.dwExtraInfo = (UIntPtr)0uL;
+                API.INPUT input = new API.INPUT();
+                input.type = API.INPUTTYPE.MOUSE;
+                input.mi.dx = 0;
+                input.mi.dy = 0;
+                input.mi.mouseData = 0;
+                input.mi.time = 0u;
+                input.mi.dwExtraInfo = (UIntPtr)0x7FuL;
 
                 switch (Settings.StrokeButton)
                 {
                     case MouseButtons.Left:
-                        if (API.GetSystemMetrics(API.SystemMetrics.SM_SWAPBUTTON) == 0)
+                        if (API.GetSystemMetrics(API.SM.SWAPBUTTON) == 0)
                         {
-                            imput.mi.dwFlags = (API.MOUSEEVENTF.LEFTDOWN | API.MOUSEEVENTF.LEFTUP);
+                            input.mi.dwFlags = (API.MOUSEEVENTF.LEFTDOWN | API.MOUSEEVENTF.LEFTUP);
                         }
                         else
                         {
-                            imput.mi.dwFlags = (API.MOUSEEVENTF.RIGHTDOWN | API.MOUSEEVENTF.RIGHTUP);
+                            input.mi.dwFlags = (API.MOUSEEVENTF.RIGHTDOWN | API.MOUSEEVENTF.RIGHTUP);
                         }
                         break;
                     case MouseButtons.Right:
-                        if (API.GetSystemMetrics(API.SystemMetrics.SM_SWAPBUTTON) == 0)
+                        if (API.GetSystemMetrics(API.SM.SWAPBUTTON) == 0)
                         {
-                            imput.mi.dwFlags = (API.MOUSEEVENTF.RIGHTDOWN | API.MOUSEEVENTF.RIGHTUP);
+                            input.mi.dwFlags = (API.MOUSEEVENTF.RIGHTDOWN | API.MOUSEEVENTF.RIGHTUP);
                         }
                         else
                         {
-                            imput.mi.dwFlags = (API.MOUSEEVENTF.LEFTDOWN | API.MOUSEEVENTF.LEFTUP);
+                            input.mi.dwFlags = (API.MOUSEEVENTF.LEFTDOWN | API.MOUSEEVENTF.LEFTUP);
                         }
                         break;
                     case MouseButtons.Middle:
-                        imput.mi.dwFlags = (API.MOUSEEVENTF.MIDDLEDOWN | API.MOUSEEVENTF.MIDDLEUP);
+                        input.mi.dwFlags = (API.MOUSEEVENTF.MIDDLEDOWN | API.MOUSEEVENTF.MIDDLEUP);
                         break;
                     case MouseButtons.XButton1:
-                        imput.mi.dwFlags = (API.MOUSEEVENTF.XDOWN | API.MOUSEEVENTF.XUP);
-                        imput.mi.mouseData = 0x0001;
+                        input.mi.dwFlags = (API.MOUSEEVENTF.XDOWN | API.MOUSEEVENTF.XUP);
+                        input.mi.mouseData = 0x0001;
                         break;
                     case MouseButtons.XButton2:
-                        imput.mi.dwFlags = (API.MOUSEEVENTF.XDOWN | API.MOUSEEVENTF.XUP);
-                        imput.mi.mouseData = 0x0002;
+                        input.mi.dwFlags = (API.MOUSEEVENTF.XDOWN | API.MOUSEEVENTF.XUP);
+                        input.mi.mouseData = 0x0002;
                         break;
                 }
 
-                API.SendInput(1u, ref imput, Marshal.SizeOf(typeof(API.INPUT)));
-            });
-            task.GetAwaiter().OnCompleted(() =>
-            {
-                MouseHook.StartHook();
+                API.SendInput(1u, ref input, Marshal.SizeOf(typeof(API.INPUT)));
             });
         }
 

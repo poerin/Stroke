@@ -14,7 +14,7 @@ namespace Stroke.Configure
             InitializeComponent();
             this.Bounds = SystemInformation.VirtualScreen;
             Gesture = gesture;
-            draw = new Draw(this.Handle, API.CreatePen(API.PenStyle.PS_SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
+            draw = new Draw(this.Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
             this.Load += GestureCanvas_Load;
             this.FormClosing += GestureCanvas_FormClosing;
         }

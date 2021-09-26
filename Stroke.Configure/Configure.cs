@@ -309,11 +309,11 @@ namespace Stroke.Configure
             {
                 if (treeViewAction.SelectedNode.Level == 0)
                 {
-                    ContextMenuStripActionPackage.Show(Control.MousePosition);
+                    ContextMenuStripActionPackage.Show(MousePosition);
                 }
                 else
                 {
-                    ContextMenuStripAction.Show(Control.MousePosition);
+                    ContextMenuStripAction.Show(MousePosition);
                 }
             }
         }

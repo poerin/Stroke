@@ -4,201 +4,69 @@ using System.Text;
 
 namespace Stroke
 {
-    public static class API
+    public class API
     {
-        public enum VirtualKeyCodes : ushort
+        public enum AccessRights : uint
         {
-            VK_LBUTTON = 0x01,
-            VK_RBUTTON = 0x02,
-            VK_CANCEL = 0x03,
-            VK_MBUTTON = 0x04,
-            VK_XBUTTON1 = 0x05,
-            VK_XBUTTON2 = 0x06,
-            VK_BACK = 0x08,
-            VK_TAB = 0x09,
-            VK_CLEAR = 0x0C,
-            VK_RETURN = 0x0D,
-            VK_SHIFT = 0x10,
-            VK_CONTROL = 0x11,
-            VK_MENU = 0x12,
-            VK_PAUSE = 0x13,
-            VK_CAPITAL = 0x14,
-            VK_KANA = 0x15,
-            VK_HANGUEL = 0x15,
-            VK_HANGUL = 0x15,
-            VK_IME_ON = 0x16,
-            VK_JUNJA = 0x17,
-            VK_FINAL = 0x18,
-            VK_HANJA = 0x19,
-            VK_KANJI = 0x19,
-            VK_IME_OFF = 0x1A,
-            VK_ESCAPE = 0x1B,
-            VK_CONVERT = 0x1C,
-            VK_NONCONVERT = 0x1D,
-            VK_ACCEPT = 0x1E,
-            VK_MODECHANGE = 0x1F,
-            VK_SPACE = 0x20,
-            VK_PRIOR = 0x21,
-            VK_NEXT = 0x22,
-            VK_END = 0x23,
-            VK_HOME = 0x24,
-            VK_LEFT = 0x25,
-            VK_UP = 0x26,
-            VK_RIGHT = 0x27,
-            VK_DOWN = 0x28,
-            VK_SELECT = 0x29,
-            VK_PRINT = 0x2A,
-            VK_EXECUTE = 0x2B,
-            VK_SNAPSHOT = 0x2C,
-            VK_INSERT = 0x2D,
-            VK_DELETE = 0x2E,
-            VK_HELP = 0x2F,
-            VK_0 = 0x30,
-            VK_1 = 0x31,
-            VK_2 = 0x32,
-            VK_3 = 0x33,
-            VK_4 = 0x34,
-            VK_5 = 0x35,
-            VK_6 = 0x36,
-            VK_7 = 0x37,
-            VK_8 = 0x38,
-            VK_9 = 0x39,
-            VK_A = 0x41,
-            VK_B = 0x42,
-            VK_C = 0x43,
-            VK_D = 0x44,
-            VK_E = 0x45,
-            VK_F = 0x46,
-            VK_G = 0x47,
-            VK_H = 0x48,
-            VK_I = 0x49,
-            VK_J = 0x4A,
-            VK_K = 0x4B,
-            VK_L = 0x4C,
-            VK_M = 0x4D,
-            VK_N = 0x4E,
-            VK_O = 0x4F,
-            VK_P = 0x50,
-            VK_Q = 0x51,
-            VK_R = 0x52,
-            VK_S = 0x53,
-            VK_T = 0x54,
-            VK_U = 0x55,
-            VK_V = 0x56,
-            VK_W = 0x57,
-            VK_X = 0x58,
-            VK_Y = 0x59,
-            VK_Z = 0x5A,
-            VK_LWIN = 0x5B,
-            VK_RWIN = 0x5C,
-            VK_APPS = 0x5D,
-            VK_SLEEP = 0x5F,
-            VK_NUMPAD0 = 0x60,
-            VK_NUMPAD1 = 0x61,
-            VK_NUMPAD2 = 0x62,
-            VK_NUMPAD3 = 0x63,
-            VK_NUMPAD4 = 0x64,
-            VK_NUMPAD5 = 0x65,
-            VK_NUMPAD6 = 0x66,
-            VK_NUMPAD7 = 0x67,
-            VK_NUMPAD8 = 0x68,
-            VK_NUMPAD9 = 0x69,
-            VK_MULTIPLY = 0x6A,
-            VK_ADD = 0x6B,
-            VK_SEPARATOR = 0x6C,
-            VK_SUBTRACT = 0x6D,
-            VK_DECIMAL = 0x6E,
-            VK_DIVIDE = 0x6F,
-            VK_F1 = 0x70,
-            VK_F2 = 0x71,
-            VK_F3 = 0x72,
-            VK_F4 = 0x73,
-            VK_F5 = 0x74,
-            VK_F6 = 0x75,
-            VK_F7 = 0x76,
-            VK_F8 = 0x77,
-            VK_F9 = 0x78,
-            VK_F10 = 0x79,
-            VK_F11 = 0x7A,
-            VK_F12 = 0x7B,
-            VK_F13 = 0x7C,
-            VK_F14 = 0x7D,
-            VK_F15 = 0x7E,
-            VK_F16 = 0x7F,
-            VK_F17 = 0x80,
-            VK_F18 = 0x81,
-            VK_F19 = 0x82,
-            VK_F20 = 0x83,
-            VK_F21 = 0x84,
-            VK_F22 = 0x85,
-            VK_F23 = 0x86,
-            VK_F24 = 0x87,
-            VK_NUMLOCK = 0x90,
-            VK_SCROLL = 0x91,
-            VK_LSHIFT = 0xA0,
-            VK_RSHIFT = 0xA1,
-            VK_LCONTROL = 0xA2,
-            VK_RCONTROL = 0xA3,
-            VK_LMENU = 0xA4,
-            VK_RMENU = 0xA5,
-            VK_BROWSER_BACK = 0xA6,
-            VK_BROWSER_FORWARD = 0xA7,
-            VK_BROWSER_REFRESH = 0xA8,
-            VK_BROWSER_STOP = 0xA9,
-            VK_BROWSER_SEARCH = 0xAA,
-            VK_BROWSER_FAVORITES = 0xAB,
-            VK_BROWSER_HOME = 0xAC,
-            VK_VOLUME_MUTE = 0xAD,
-            VK_VOLUME_DOWN = 0xAE,
-            VK_VOLUME_UP = 0xAF,
-            VK_MEDIA_NEXT_TRACK = 0xB0,
-            VK_MEDIA_PREV_TRACK = 0xB1,
-            VK_MEDIA_STOP = 0xB2,
-            VK_MEDIA_PLAY_PAUSE = 0xB3,
-            VK_LAUNCH_MAIL = 0xB4,
-            VK_LAUNCH_MEDIA_SELECT = 0xB5,
-            VK_LAUNCH_APP1 = 0xB6,
-            VK_LAUNCH_APP2 = 0xB7,
-            VK_OEM_1 = 0xBA,
-            VK_OEM_PLUS = 0xBB,
-            VK_OEM_COMMA = 0xBC,
-            VK_OEM_MINUS = 0xBD,
-            VK_OEM_PERIOD = 0xBE,
-            VK_OEM_2 = 0xBF,
-            VK_OEM_3 = 0xC0,
-            VK_OEM_4 = 0xDB,
-            VK_OEM_5 = 0xDC,
-            VK_OEM_6 = 0xDD,
-            VK_OEM_7 = 0xDE,
-            VK_OEM_8 = 0xDF,
-            VK_OEM_102 = 0xE2,
-            VK_PROCESSKEY = 0xE5,
-            VK_PACKET = 0xE7,
-            VK_ATTN = 0xF6,
-            VK_CRSEL = 0xF7,
-            VK_EXSEL = 0xF8,
-            VK_EREOF = 0xF9,
-            VK_PLAY = 0xFA,
-            VK_ZOOM = 0xFB,
-            VK_NONAME = 0xFC,
-            VK_PA1 = 0xFD,
-            VK_OEM_CLEAR = 0xFE
+            PROCESS_TERMINATE = 0x0001,
+            PROCESS_CREATE_THREAD = 0x0002,
+            PROCESS_VM_OPERATION = 0x0008,
+            PROCESS_VM_READ = 0x0010,
+            PROCESS_VM_WRITE = 0x0020,
+            PROCESS_DUP_HANDLE = 0x0040,
+            PROCESS_CREATE_PROCESS = 0x0080,
+            PROCESS_SET_QUOTA = 0x0100,
+            PROCESS_SET_INFORMATION = 0x0200,
+            PROCESS_QUERY_INFORMATION = 0x0400,
+            PROCESS_SUSPEND_RESUME = 0x0800,
+            PROCESS_QUERY_LIMITED_INFORMATION = 0x1000,
+            SYNCHRONIZE = 0x00100000
         }
 
-        [StructLayout(LayoutKind.Explicit)]
-        public struct INPUT
+        // Window Class Styles
+        [Flags]
+        public enum CS : uint
         {
-            [FieldOffset(0)]
-            public INPUTTYPE type;
+            VREDRAW = 0x0001,
+            HREDRAW = 0x0002,
+            DBLCLKS = 0x0008,
+            OWNDC = 0x0020,
+            CLASSDC = 0x0040,
+            PARENTDC = 0x0080,
+            NOCLOSE = 0x0200,
+            SAVEBITS = 0x0800,
+            BYTEALIGNCLIENT = 0x1000,
+            BYTEALIGNWINDOW = 0x2000,
+            GLOBALCLASS = 0x4000,
+            DROPSHADOW = 0x00020000
+        }
 
-            [FieldOffset(4)]
-            public MOUSEINPUT mi;
+        // GetAncestor
+        public enum GA : uint
+        {
+            PARENT = 1,
+            ROOT = 2,
+            ROOTOWNER = 3
+        }
 
-            [FieldOffset(4)]
-            public KEYBDINPUT ki;
+        // GetWindowLong
+        public enum GWL : int
+        {
+            WNDPROC = -4,
+            HINSTANCE = -6,
+            ID = -12,
+            STYLE = -16,
+            EXSTYLE = -20,
+            USERDATA = -21
+        }
 
-            [FieldOffset(4)]
-            public HARDWAREINPUT hi;
+        // InsertAfter
+        public enum IA : int
+        {
+            TOPMOST = -1,
+            NOTOPMOST = -2,
+            TOP = 0,
+            BOTTOM = 1
         }
 
         public enum INPUTTYPE : uint
@@ -208,30 +76,13 @@ namespace Stroke
             HARDWARE
         }
 
-        public struct MOUSEINPUT
+        [Flags]
+        public enum KEYEVENTF : uint
         {
-            public int dx;
-            public int dy;
-            public uint mouseData;
-            public MOUSEEVENTF dwFlags;
-            public uint time;
-            public UIntPtr dwExtraInfo;
-        }
-
-        public struct KEYBDINPUT
-        {
-            public VirtualKeyCodes wVk;
-            public ushort wScan;
-            public KEYEVENTF dwFlags;
-            public uint time;
-            public UIntPtr dwExtraInfo;
-        }
-
-        public struct HARDWAREINPUT
-        {
-            public uint uMsg;
-            public ushort wParamL;
-            public ushort wParamH;
+            EXTENDEDKEY = 0x0001,
+            KEYUP = 0x0002,
+            UNICODE = 0x0004,
+            SCANCODE = 0x0008
         }
 
         [Flags]
@@ -253,121 +104,461 @@ namespace Stroke
             ABSOLUTE = 0x8000
         }
 
+        // Pen Styles
+        public enum PS : int
+        {
+            SOLID = 0x00000000,
+            DASH = 0x00000001,
+            DOT = 0x00000002,
+            DASHDOT = 0x00000003,
+            DASHDOTDOT = 0x00000004,
+            NULL = 0x00000005,
+            INSIDEFRAME = 0x00000006,
+            USERSTYLE = 0x00000007,
+            ALTERNATE = 0x00000008,
+            STYLE_MASK = 0x0000000F,
+            ENDCAP_ROUND = 0x00000000,
+            ENDCAP_SQUARE = 0x00000100,
+            ENDCAP_FLAT = 0x00000200,
+            ENDCAP_MASK = 0x00000F00,
+            JOIN_ROUND = 0x00000000,
+            JOIN_BEVEL = 0x00001000,
+            JOIN_MITER = 0x00002000,
+            JOIN_MASK = 0x0000F000,
+            COSMETIC = 0x00000000,
+            GEOMETRIC = 0x00010000,
+            TYPE_MASK = 0x000F0000
+        }
+
+        // System Metrics
+        public enum SM : int
+        {
+            CXSCREEN = 0,
+            CYSCREEN = 1,
+            CXVSCROLL = 2,
+            CYHSCROLL = 3,
+            CYCAPTION = 4,
+            CXBORDER = 5,
+            CYBORDER = 6,
+            CXDLGFRAME = 7,
+            CXFIXEDFRAME = 7,
+            CYDLGFRAME = 8,
+            CYFIXEDFRAME = 8,
+            CYVTHUMB = 9,
+            CXHTHUMB = 10,
+            CXICON = 11,
+            CYICON = 12,
+            CXCURSOR = 13,
+            CYCURSOR = 14,
+            CYMENU = 15,
+            CXFULLSCREEN = 16,
+            CYFULLSCREEN = 17,
+            CYKANJIWINDOW = 18,
+            MOUSEPRESENT = 19,
+            CYVSCROLL = 20,
+            CXHSCROLL = 21,
+            DEBUG = 22,
+            SWAPBUTTON = 23,
+            CXMIN = 28,
+            CYMIN = 29,
+            CXSIZE = 30,
+            CYSIZE = 31,
+            CXFRAME = 32,
+            CXSIZEFRAME = 32,
+            CYFRAME = 33,
+            CYSIZEFRAME = 33,
+            CXMINTRACK = 34,
+            CYMINTRACK = 35,
+            CXDOUBLECLK = 36,
+            CYDOUBLECLK = 37,
+            CXICONSPACING = 38,
+            CYICONSPACING = 39,
+            MENUDROPALIGNMENT = 40,
+            PENWINDOWS = 41,
+            DBCSENABLED = 42,
+            CMOUSEBUTTONS = 43,
+            SECURE = 44,
+            CXEDGE = 45,
+            CYEDGE = 46,
+            CXMINSPACING = 47,
+            CYMINSPACING = 48,
+            CXSMICON = 49,
+            CYSMICON = 50,
+            CYSMCAPTION = 51,
+            CXSMSIZE = 52,
+            CYSMSIZE = 53,
+            CXMENUSIZE = 54,
+            CYMENUSIZE = 55,
+            ARRANGE = 56,
+            CXMINIMIZED = 57,
+            CYMINIMIZED = 58,
+            CXMAXTRACK = 59,
+            CYMAXTRACK = 60,
+            CXMAXIMIZED = 61,
+            CYMAXIMIZED = 62,
+            NETWORK = 63,
+            CLEANBOOT = 67,
+            CXDRAG = 68,
+            CYDRAG = 69,
+            SHOWSOUNDS = 70,
+            CXMENUCHECK = 71,
+            CYMENUCHECK = 72,
+            SLOWMACHINE = 73,
+            MIDEASTENABLED = 74,
+            MOUSEWHEELPRESENT = 75,
+            XVIRTUALSCREEN = 76,
+            YVIRTUALSCREEN = 77,
+            CXVIRTUALSCREEN = 78,
+            CYVIRTUALSCREEN = 79,
+            CMONITORS = 80,
+            SAMEDISPLAYFORMAT = 81,
+            IMMENABLED = 82,
+            CXFOCUSBORDER = 83,
+            CYFOCUSBORDER = 84,
+            TABLETPC = 86,
+            MEDIACENTER = 87,
+            STARTER = 88,
+            SERVERR2 = 89,
+            MOUSEHORIZONTALWHEELPRESENT = 91,
+            CXPADDEDBORDER = 92,
+            DIGITIZER = 94,
+            MAXIMUMTOUCHES = 95,
+            REMOTESESSION = 0x1000,
+            SHUTTINGDOWN = 0x2000,
+            REMOTECONTROL = 0x2001,
+            CONVERTIBLESLATEMODE = 0x2003,
+            SYSTEMDOCKED = 0x2004
+        }
+
+        // ShowWindow
         [Flags]
-        public enum KEYEVENTF : uint
+        public enum SW : int
         {
-            EXTENDEDKEY = 0x0001,
-            KEYUP = 0x0002,
-            UNICODE = 0x0004,
-            SCANCODE = 0x0008
+            HIDE = 0,
+            NORMAL = 1,
+            SHOWNORMAL = 1,
+            SHOWMINIMIZED = 2,
+            MAXIMIZE = 3,
+            SHOWMAXIMIZED = 3,
+            SHOWNOACTIVATE = 4,
+            SHOW = 5,
+            MINIMIZE = 6,
+            SHOWMINNOACTIVE = 7,
+            SHOWNA = 8,
+            RESTORE = 9,
+            SHOWDEFAULT = 10,
+            FORCEMINIMIZE = 11
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern uint SendInput(uint cInputs, ref INPUT pInput, int cbSize);
-
-        public enum WindowLong : int
-        {
-            GWL_WNDPROC = -4,
-            GWL_HINSTANCE = -6,
-            GWL_ID = -12,
-            GWL_STYLE = -16,
-            GWL_EXSTYLE = -20,
-            GWL_USERDATA = -21
-        }
-
+        // SetWindowPos
         [Flags]
-        public enum WindowStyles : uint
+        public enum SWP : uint
         {
-            WS_OVERLAPPED = 0x00000000,
-            WS_TILED = 0x00000000,
-            WS_MAXIMIZEBOX = 0x00010000,
-            WS_TABSTOP = 0x00010000,
-            WS_GROUP = 0x00020000,
-            WS_MINIMIZEBOX = 0x00020000,
-            WS_SIZEBOX = 0x00040000,
-            WS_THICKFRAME = 0x00040000,
-            WS_SYSMENU = 0x00080000,
-            WS_HSCROLL = 0x00100000,
-            WS_VSCROLL = 0x00200000,
-            WS_DLGFRAME = 0x00400000,
-            WS_BORDER = 0x00800000,
-            WS_CAPTION = 0x00C00000,
-            WS_MAXIMIZE = 0x01000000,
-            WS_CLIPCHILDREN = 0x02000000,
-            WS_CLIPSIBLINGS = 0x04000000,
-            WS_DISABLED = 0x08000000,
-            WS_VISIBLE = 0x10000000,
-            WS_ICONIC = 0x20000000,
-            WS_MINIMIZE = 0x20000000,
-            WS_CHILD = 0x40000000,
-            WS_CHILDWINDOW = 0x40000000,
-            WS_POPUP = 0x80000000,
-            WS_POPUPWINDOW = (WS_POPUP | WS_BORDER | WS_SYSMENU),
-            WS_OVERLAPPEDWINDOW = (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX),
-            WS_TILEDWINDOW = (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX)
+            NOSIZE = 0x0001,
+            NOMOVE = 0x0002,
+            NOZORDER = 0x0004,
+            NOREDRAW = 0x0008,
+            NOACTIVATE = 0x0010,
+            DRAWFRAME = 0x0020,
+            FRAMECHANGED = 0x0020,
+            SHOWWINDOW = 0x0040,
+            HIDEWINDOW = 0x0080,
+            NOCOPYBITS = 0x0100,
+            NOREPOSITION = 0x0200,
+            NOOWNERZORDER = 0x0200,
+            NOSENDCHANGING = 0x0400,
+            DEFERERASE = 0x2000,
+            ASYNCWINDOWPOS = 0x4000
         }
 
+        // Virtual-Key
+        public enum VK : ushort
+        {
+            LBUTTON = 0x01,
+            RBUTTON = 0x02,
+            CANCEL = 0x03,
+            MBUTTON = 0x04,
+            XBUTTON1 = 0x05,
+            XBUTTON2 = 0x06,
+            BACK = 0x08,
+            TAB = 0x09,
+            CLEAR = 0x0C,
+            RETURN = 0x0D,
+            SHIFT = 0x10,
+            CONTROL = 0x11,
+            MENU = 0x12,
+            PAUSE = 0x13,
+            CAPITAL = 0x14,
+            KANA = 0x15,
+            HANGUEL = 0x15,
+            HANGUL = 0x15,
+            IME_ON = 0x16,
+            JUNJA = 0x17,
+            FINAL = 0x18,
+            HANJA = 0x19,
+            KANJI = 0x19,
+            IME_OFF = 0x1A,
+            ESCAPE = 0x1B,
+            CONVERT = 0x1C,
+            NONCONVERT = 0x1D,
+            ACCEPT = 0x1E,
+            MODECHANGE = 0x1F,
+            SPACE = 0x20,
+            PRIOR = 0x21,
+            NEXT = 0x22,
+            END = 0x23,
+            HOME = 0x24,
+            LEFT = 0x25,
+            UP = 0x26,
+            RIGHT = 0x27,
+            DOWN = 0x28,
+            SELECT = 0x29,
+            PRINT = 0x2A,
+            EXECUTE = 0x2B,
+            SNAPSHOT = 0x2C,
+            INSERT = 0x2D,
+            DELETE = 0x2E,
+            HELP = 0x2F,
+            D0 = 0x30,
+            D1 = 0x31,
+            D2 = 0x32,
+            D3 = 0x33,
+            D4 = 0x34,
+            D5 = 0x35,
+            D6 = 0x36,
+            D7 = 0x37,
+            D8 = 0x38,
+            D9 = 0x39,
+            A = 0x41,
+            B = 0x42,
+            C = 0x43,
+            D = 0x44,
+            E = 0x45,
+            F = 0x46,
+            G = 0x47,
+            H = 0x48,
+            I = 0x49,
+            J = 0x4A,
+            K = 0x4B,
+            L = 0x4C,
+            M = 0x4D,
+            N = 0x4E,
+            O = 0x4F,
+            P = 0x50,
+            Q = 0x51,
+            R = 0x52,
+            S = 0x53,
+            T = 0x54,
+            U = 0x55,
+            V = 0x56,
+            W = 0x57,
+            X = 0x58,
+            Y = 0x59,
+            Z = 0x5A,
+            LWIN = 0x5B,
+            RWIN = 0x5C,
+            APPS = 0x5D,
+            SLEEP = 0x5F,
+            NUMPAD0 = 0x60,
+            NUMPAD1 = 0x61,
+            NUMPAD2 = 0x62,
+            NUMPAD3 = 0x63,
+            NUMPAD4 = 0x64,
+            NUMPAD5 = 0x65,
+            NUMPAD6 = 0x66,
+            NUMPAD7 = 0x67,
+            NUMPAD8 = 0x68,
+            NUMPAD9 = 0x69,
+            MULTIPLY = 0x6A,
+            ADD = 0x6B,
+            SEPARATOR = 0x6C,
+            SUBTRACT = 0x6D,
+            DECIMAL = 0x6E,
+            DIVIDE = 0x6F,
+            F1 = 0x70,
+            F2 = 0x71,
+            F3 = 0x72,
+            F4 = 0x73,
+            F5 = 0x74,
+            F6 = 0x75,
+            F7 = 0x76,
+            F8 = 0x77,
+            F9 = 0x78,
+            F10 = 0x79,
+            F11 = 0x7A,
+            F12 = 0x7B,
+            F13 = 0x7C,
+            F14 = 0x7D,
+            F15 = 0x7E,
+            F16 = 0x7F,
+            F17 = 0x80,
+            F18 = 0x81,
+            F19 = 0x82,
+            F20 = 0x83,
+            F21 = 0x84,
+            F22 = 0x85,
+            F23 = 0x86,
+            F24 = 0x87,
+            NUMLOCK = 0x90,
+            SCROLL = 0x91,
+            LSHIFT = 0xA0,
+            RSHIFT = 0xA1,
+            LCONTROL = 0xA2,
+            RCONTROL = 0xA3,
+            LMENU = 0xA4,
+            RMENU = 0xA5,
+            BROWSER_BACK = 0xA6,
+            BROWSER_FORWARD = 0xA7,
+            BROWSER_REFRESH = 0xA8,
+            BROWSER_STOP = 0xA9,
+            BROWSER_SEARCH = 0xAA,
+            BROWSER_FAVORITES = 0xAB,
+            BROWSER_HOME = 0xAC,
+            VOLUME_MUTE = 0xAD,
+            VOLUME_DOWN = 0xAE,
+            VOLUME_UP = 0xAF,
+            MEDIA_NEXT_TRACK = 0xB0,
+            MEDIA_PREV_TRACK = 0xB1,
+            MEDIA_STOP = 0xB2,
+            MEDIA_PLAY_PAUSE = 0xB3,
+            LAUNCH_MAIL = 0xB4,
+            LAUNCH_MEDIA_SELECT = 0xB5,
+            LAUNCH_APP1 = 0xB6,
+            LAUNCH_APP2 = 0xB7,
+            OEM_1 = 0xBA,
+            OEM_PLUS = 0xBB,
+            OEM_COMMA = 0xBC,
+            OEM_MINUS = 0xBD,
+            OEM_PERIOD = 0xBE,
+            OEM_2 = 0xBF,
+            OEM_3 = 0xC0,
+            OEM_4 = 0xDB,
+            OEM_5 = 0xDC,
+            OEM_6 = 0xDD,
+            OEM_7 = 0xDE,
+            OEM_8 = 0xDF,
+            OEM_102 = 0xE2,
+            PROCESSKEY = 0xE5,
+            PACKET = 0xE7,
+            ATTN = 0xF6,
+            CRSEL = 0xF7,
+            EXSEL = 0xF8,
+            EREOF = 0xF9,
+            PLAY = 0xFA,
+            ZOOM = 0xFB,
+            NONAME = 0xFC,
+            PA1 = 0xFD,
+            OEM_CLEAR = 0xFE
+        }
+
+        // Windows Hook
+        public enum WH : int
+        {
+            MSGFILTER = -1,
+            JOURNALRECORD = 0,
+            JOURNALPLAYBACK = 1,
+            KEYBOARD = 2,
+            GETMESSAGE = 3,
+            CALLWNDPROC = 4,
+            CBT = 5,
+            SYSMSGFILTER = 6,
+            MOUSE = 7,
+            DEBUG = 9,
+            SHELL = 10,
+            FOREGROUNDIDLE = 11,
+            CALLWNDPROCRET = 12,
+            KEYBOARD_LL = 13,
+            MOUSE_LL = 14
+        }
+
+        // Window Styles
         [Flags]
-        public enum WindowStylesExtended : uint
+        public enum WS : uint
         {
-            WS_EX_LEFT = 0x00000000,
-            WS_EX_LTRREADING = 0x00000000,
-            WS_EX_RIGHTSCROLLBAR = 0x00000000,
-            WS_EX_DLGMODALFRAME = 0x00000001,
-            WS_EX_NOPARENTNOTIFY = 0x00000004,
-            WS_EX_TOPMOST = 0x00000008,
-            WS_EX_ACCEPTFILES = 0x00000010,
-            WS_EX_TRANSPARENT = 0x00000020,
-            WS_EX_MDICHILD = 0x00000040,
-            WS_EX_TOOLWINDOW = 0x00000080,
-            WS_EX_WINDOWEDGE = 0x00000100,
-            WS_EX_CLIENTEDGE = 0x00000200,
-            WS_EX_CONTEXTHELP = 0x00000400,
-            WS_EX_RIGHT = 0x00001000,
-            WS_EX_RTLREADING = 0x00002000,
-            WS_EX_LEFTSCROLLBAR = 0x00004000,
-            WS_EX_CONTROLPARENT = 0x00010000,
-            WS_EX_STATICEDGE = 0x00020000,
-            WS_EX_APPWINDOW = 0x00040000,
-            WS_EX_LAYERED = 0x00080000,
-            WS_EX_NOINHERITLAYOUT = 0x00100000,
-            WS_EX_NOREDIRECTIONBITMAP = 0x00200000,
-            WS_EX_LAYOUTRTL = 0x00400000,
-            WS_EX_COMPOSITED = 0x02000000,
-            WS_EX_NOACTIVATE = 0x08000000,
-            WS_EX_OVERLAPPEDWINDOW = (WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE),
-            WS_EX_PALETTEWINDOW = (WS_EX_WINDOWEDGE | WS_EX_TOOLWINDOW | WS_EX_TOPMOST)
+            OVERLAPPED = 0x00000000,
+            TILED = 0x00000000,
+            MAXIMIZEBOX = 0x00010000,
+            TABSTOP = 0x00010000,
+            GROUP = 0x00020000,
+            MINIMIZEBOX = 0x00020000,
+            SIZEBOX = 0x00040000,
+            THICKFRAME = 0x00040000,
+            SYSMENU = 0x00080000,
+            HSCROLL = 0x00100000,
+            VSCROLL = 0x00200000,
+            DLGFRAME = 0x00400000,
+            BORDER = 0x00800000,
+            CAPTION = 0x00C00000,
+            MAXIMIZE = 0x01000000,
+            CLIPCHILDREN = 0x02000000,
+            CLIPSIBLINGS = 0x04000000,
+            DISABLED = 0x08000000,
+            VISIBLE = 0x10000000,
+            ICONIC = 0x20000000,
+            MINIMIZE = 0x20000000,
+            CHILD = 0x40000000,
+            CHILDWINDOW = 0x40000000,
+            POPUP = 0x80000000,
+            POPUPWINDOW = (POPUP | BORDER | SYSMENU),
+            OVERLAPPEDWINDOW = (OVERLAPPED | CAPTION | SYSMENU | THICKFRAME | MINIMIZEBOX | MAXIMIZEBOX),
+            TILEDWINDOW = (OVERLAPPED | CAPTION | SYSMENU | THICKFRAME | MINIMIZEBOX | MAXIMIZEBOX)
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public extern static int GetWindowLong(IntPtr hWnd, WindowLong nIndex);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public extern static int SetWindowLong(IntPtr hWnd, WindowLong nIndex, int dwNewLong);
-
-        public const int WH_MOUSE_LL = 14;
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
+        // Extended Window Styles
+        [Flags]
+        public enum WS_EX : uint
         {
-            public int X;
-            public int Y;
-
-            public POINT(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
+            LEFT = 0x00000000,
+            LTRREADING = 0x00000000,
+            RIGHTSCROLLBAR = 0x00000000,
+            DLGMODALFRAME = 0x00000001,
+            NOPARENTNOTIFY = 0x00000004,
+            TOPMOST = 0x00000008,
+            ACCEPTFILES = 0x00000010,
+            TRANSPARENT = 0x00000020,
+            MDICHILD = 0x00000040,
+            TOOLWINDOW = 0x00000080,
+            WINDOWEDGE = 0x00000100,
+            CLIENTEDGE = 0x00000200,
+            CONTEXTHELP = 0x00000400,
+            RIGHT = 0x00001000,
+            RTLREADING = 0x00002000,
+            LEFTSCROLLBAR = 0x00004000,
+            CONTROLPARENT = 0x00010000,
+            STATICEDGE = 0x00020000,
+            APPWINDOW = 0x00040000,
+            LAYERED = 0x00080000,
+            NOINHERITLAYOUT = 0x00100000,
+            NOREDIRECTIONBITMAP = 0x00200000,
+            LAYOUTRTL = 0x00400000,
+            COMPOSITED = 0x02000000,
+            NOACTIVATE = 0x08000000,
+            OVERLAPPEDWINDOW = (WINDOWEDGE | CLIENTEDGE),
+            PALETTEWINDOW = (WINDOWEDGE | TOOLWINDOW | TOPMOST)
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MSLLHOOKSTRUCT
+        public enum KeyboardMessages
         {
-            public POINT pt;
-            public uint mouseData;
-            public uint flags;
-            public uint time;
-            public UIntPtr dwExtraInfo;
+            WM_ACTIVATE = 0x0006,
+            WM_SETFOCUS = 0x0007,
+            WM_KILLFOCUS = 0x0008,
+
+            WM_KEYDOWN = 0x0100,
+            WM_KEYUP = 0x0101,
+
+            WM_CHAR = 0x0102,
+            WM_DEADCHAR = 0x0103,
+
+            WM_SYSKEYDOWN = 0x0104,
+            WM_SYSKEYUP = 0x0105,
+
+            WM_SYSDEADCHAR = 0x0107,
+
+            WM_UNICHAR = 0x0109,
+
+            WM_HOTKEY = 0x0312,
+
+            WM_APPCOMMAND = 0x0319
         }
 
         public enum MouseMessages
@@ -415,24 +606,51 @@ namespace Stroke
             WM_MOUSELEAVE = 0x02A3
         }
 
-        public delegate IntPtr HOOKPROC(int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(int idHook, HOOKPROC lpfn, IntPtr hMod, uint dwThreadId);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AllowSetForegroundWindow(uint dwProcessId);
+        public enum WindowMessages : uint
+        {
+            WM_NULL = 0x0000,
+            WM_CREATE = 0x0001,
+            WM_DESTROY = 0x0002,
+            WM_MOVE = 0x0003,
+            WM_SIZE = 0x0005,
+            WM_ENABLE = 0x000A,
+            WM_SETTEXT = 0x000C,
+            WM_GETTEXT = 0x000D,
+            WM_GETTEXTLENGTH = 0x000E,
+            WM_CLOSE = 0x0010,
+            WM_QUIT = 0x0012,
+            WM_QUERYOPEN = 0x0013,
+            WM_ERASEBKGND = 0x0014,
+            WM_SHOWWINDOW = 0x0018,
+            WM_ACTIVATEAPP = 0x001C,
+            WM_CANCELMODE = 0x001F,
+            WM_CHILDACTIVATE = 0x0022,
+            WM_GETMINMAXINFO = 0x0024,
+            WM_SETFONT = 0x0030,
+            WM_GETFONT = 0x0031,
+            WM_QUERYDRAGICON = 0x0037,
+            WM_COMPACTING = 0x0041,
+            WM_WINDOWPOSCHANGING = 0x0046,
+            WM_WINDOWPOSCHANGED = 0x0047,
+            WM_INPUTLANGCHANGEREQUEST = 0x0050,
+            WM_INPUTLANGCHANGE = 0x0051,
+            WM_USERCHANGED = 0x0054,
+            WM_STYLECHANGING = 0x007C,
+            WM_STYLECHANGED = 0x007D,
+            WM_GETICON = 0x007F,
+            WM_SETICON = 0x0080,
+            WM_NCCREATE = 0x0081,
+            WM_NCDESTROY = 0x0082,
+            WM_NCCALCSIZE = 0x0083,
+            WM_NCACTIVATE = 0x0086,
+            MN_GETHMENU = 0x01E1,
+            WM_SIZING = 0x0214,
+            WM_MOVING = 0x0216,
+            WM_ENTERSIZEMOVE = 0x0231,
+            WM_EXITSIZEMOVE = 0x0232,
+            WM_DPICHANGED = 0x02E0,
+            WM_THEMECHANGED = 0x031A
+        }
 
         [Serializable]
         [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -455,6 +673,19 @@ namespace Stroke
             }
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public POINT(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
+        }
+
         [StructLayout(LayoutKind.Explicit)]
         public struct RECT
         {
@@ -469,195 +700,119 @@ namespace Stroke
 
             [FieldOffset(12)]
             public int Bottom;
+
+            public RECT(int left, int top, int right, int bottom)
+            {
+                Left = left;
+                Top = top;
+                Right = right;
+                Bottom = bottom;
+            }
         }
 
-        public enum PenStyle : int
+        public struct HARDWAREINPUT
         {
-            PS_SOLID = 0x00000000,
-            PS_DASH = 0x00000001,
-            PS_DOT = 0x00000002,
-            PS_DASHDOT = 0x00000003,
-            PS_DASHDOTDOT = 0x00000004,
-            PS_NULL = 0x00000005,
-            PS_INSIDEFRAME = 0x00000006,
-            PS_USERSTYLE = 0x00000007,
-            PS_ALTERNATE = 0x00000008,
-            PS_STYLE_MASK = 0x0000000F,
-            PS_ENDCAP_ROUND = 0x00000000,
-            PS_ENDCAP_SQUARE = 0x00000100,
-            PS_ENDCAP_FLAT = 0x00000200,
-            PS_ENDCAP_MASK = 0x00000F00,
-            PS_JOIN_ROUND = 0x00000000,
-            PS_JOIN_BEVEL = 0x00001000,
-            PS_JOIN_MITER = 0x00002000,
-            PS_JOIN_MASK = 0x0000F000,
-            PS_COSMETIC = 0x00000000,
-            PS_GEOMETRIC = 0x00010000,
-            PS_TYPE_MASK = 0x000F0000
+            public uint uMsg;
+            public ushort wParamL;
+            public ushort wParamH;
         }
 
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool MoveToEx(IntPtr hdc, int x, int y, IntPtr lppt);
-
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool LineTo(IntPtr hdc, int x, int y);
-
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr SelectObject([In] IntPtr hdc, [In] IntPtr h);
-
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr CreateSolidBrush(COLORREF color);
-
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr CreatePen(PenStyle iStyle, int cWidth, COLORREF color);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr GetDC(IntPtr hWnd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-        public enum SystemMetrics : int
+        public struct MOUSEINPUT
         {
-            SM_CXSCREEN = 0,
-            SM_CYSCREEN = 1,
-            SM_CXVSCROLL = 2,
-            SM_CYHSCROLL = 3,
-            SM_CYCAPTION = 4,
-            SM_CXBORDER = 5,
-            SM_CYBORDER = 6,
-            SM_CXDLGFRAME = 7,
-            SM_CXFIXEDFRAME = 7,
-            SM_CYDLGFRAME = 8,
-            SM_CYFIXEDFRAME = 8,
-            SM_CYVTHUMB = 9,
-            SM_CXHTHUMB = 10,
-            SM_CXICON = 11,
-            SM_CYICON = 12,
-            SM_CXCURSOR = 13,
-            SM_CYCURSOR = 14,
-            SM_CYMENU = 15,
-            SM_CXFULLSCREEN = 16,
-            SM_CYFULLSCREEN = 17,
-            SM_CYKANJIWINDOW = 18,
-            SM_MOUSEPRESENT = 19,
-            SM_CYVSCROLL = 20,
-            SM_CXHSCROLL = 21,
-            SM_DEBUG = 22,
-            SM_SWAPBUTTON = 23,
-            SM_CXMIN = 28,
-            SM_CYMIN = 29,
-            SM_CXSIZE = 30,
-            SM_CYSIZE = 31,
-            SM_CXFRAME = 32,
-            SM_CXSIZEFRAME = 32,
-            SM_CYFRAME = 33,
-            SM_CYSIZEFRAME = 33,
-            SM_CXMINTRACK = 34,
-            SM_CYMINTRACK = 35,
-            SM_CXDOUBLECLK = 36,
-            SM_CYDOUBLECLK = 37,
-            SM_CXICONSPACING = 38,
-            SM_CYICONSPACING = 39,
-            SM_MENUDROPALIGNMENT = 40,
-            SM_PENWINDOWS = 41,
-            SM_DBCSENABLED = 42,
-            SM_CMOUSEBUTTONS = 43,
-            SM_SECURE = 44,
-            SM_CXEDGE = 45,
-            SM_CYEDGE = 46,
-            SM_CXMINSPACING = 47,
-            SM_CYMINSPACING = 48,
-            SM_CXSMICON = 49,
-            SM_CYSMICON = 50,
-            SM_CYSMCAPTION = 51,
-            SM_CXSMSIZE = 52,
-            SM_CYSMSIZE = 53,
-            SM_CXMENUSIZE = 54,
-            SM_CYMENUSIZE = 55,
-            SM_ARRANGE = 56,
-            SM_CXMINIMIZED = 57,
-            SM_CYMINIMIZED = 58,
-            SM_CXMAXTRACK = 59,
-            SM_CYMAXTRACK = 60,
-            SM_CXMAXIMIZED = 61,
-            SM_CYMAXIMIZED = 62,
-            SM_NETWORK = 63,
-            SM_CLEANBOOT = 67,
-            SM_CXDRAG = 68,
-            SM_CYDRAG = 69,
-            SM_SHOWSOUNDS = 70,
-            SM_CXMENUCHECK = 71,
-            SM_CYMENUCHECK = 72,
-            SM_SLOWMACHINE = 73,
-            SM_MIDEASTENABLED = 74,
-            SM_MOUSEWHEELPRESENT = 75,
-            SM_XVIRTUALSCREEN = 76,
-            SM_YVIRTUALSCREEN = 77,
-            SM_CXVIRTUALSCREEN = 78,
-            SM_CYVIRTUALSCREEN = 79,
-            SM_CMONITORS = 80,
-            SM_SAMEDISPLAYFORMAT = 81,
-            SM_IMMENABLED = 82,
-            SM_CXFOCUSBORDER = 83,
-            SM_CYFOCUSBORDER = 84,
-            SM_TABLETPC = 86,
-            SM_MEDIACENTER = 87,
-            SM_STARTER = 88,
-            SM_SERVERR2 = 89,
-            SM_MOUSEHORIZONTALWHEELPRESENT = 91,
-            SM_CXPADDEDBORDER = 92,
-            SM_DIGITIZER = 94,
-            SM_MAXIMUMTOUCHES = 95,
-            SM_REMOTESESSION = 0x1000,
-            SM_SHUTTINGDOWN = 0x2000,
-            SM_REMOTECONTROL = 0x2001,
-            SM_CONVERTIBLESLATEMODE = 0x2003,
-            SM_SYSTEMDOCKED = 0x2004
+            public int dx;
+            public int dy;
+            public uint mouseData;
+            public MOUSEEVENTF dwFlags;
+            public uint time;
+            public UIntPtr dwExtraInfo;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern int GetSystemMetrics(SystemMetrics nIndex);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr WindowFromPoint(POINT Point);
-
-        public enum GetAncestorFlags : uint
+        public struct KEYBDINPUT
         {
-            GA_PARENT = 1,
-            GA_ROOT = 2,
-            GA_ROOTOWNER = 3
+            public VK wVk;
+            public ushort wScan;
+            public KEYEVENTF dwFlags;
+            public uint time;
+            public UIntPtr dwExtraInfo;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern IntPtr GetAncestor(IntPtr hWnd, GetAncestorFlags gaFlags);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-        public enum AccessRights : uint
+        [StructLayout(LayoutKind.Explicit)]
+        public struct INPUT
         {
-            PROCESS_TERMINATE = 0x0001,
-            PROCESS_CREATE_THREAD = 0x0002,
-            PROCESS_VM_OPERATION = 0x0008,
-            PROCESS_VM_READ = 0x0010,
-            PROCESS_VM_WRITE = 0x0020,
-            PROCESS_DUP_HANDLE = 0x0040,
-            PROCESS_CREATE_PROCESS = 0x0080,
-            PROCESS_SET_QUOTA = 0x0100,
-            PROCESS_SET_INFORMATION = 0x0200,
-            PROCESS_QUERY_INFORMATION = 0x0400,
-            PROCESS_SUSPEND_RESUME = 0x0800,
-            PROCESS_QUERY_LIMITED_INFORMATION = 0x1000,
-            SYNCHRONIZE = 0x00100000
+            [FieldOffset(0)]
+            public INPUTTYPE type;
+
+            [FieldOffset(4)]
+            public MOUSEINPUT mi;
+
+            [FieldOffset(4)]
+            public KEYBDINPUT ki;
+
+            [FieldOffset(4)]
+            public HARDWAREINPUT hi;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MSG
+        {
+            public IntPtr hWnd;
+            public uint message;
+            public IntPtr wParam;
+            public IntPtr lParam;
+            public uint time;
+            public POINT pt;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct KBDLLHOOKSTRUCT
+        {
+            public uint vkCode;
+            public uint scanCode;
+            public uint flags;
+            public uint time;
+            public UIntPtr dwExtraInfo;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MSLLHOOKSTRUCT
+        {
+            public POINT pt;
+            public uint mouseData;
+            public uint flags;
+            public uint time;
+            public UIntPtr dwExtraInfo;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WNDCLASSEX
+        {
+            [MarshalAs(UnmanagedType.U4)]
+            public uint cbSize;
+            [MarshalAs(UnmanagedType.U4)]
+            public CS style;
+            [MarshalAs(UnmanagedType.FunctionPtr)]
+            public WNDPROC lpfnWndProc;
+            public int cbClsExtra;
+            public int cbWndExtra;
+            public IntPtr hInstance;
+            public IntPtr hIcon;
+            public IntPtr hCursor;
+            public IntPtr hbrBackground;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string lpszMenuName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string lpszClassName;
+            public IntPtr hIconSm;
+        }
+
+
+        public delegate IntPtr HOOKPROC(int nCode, IntPtr wParam, IntPtr lParam);
+
+        public delegate IntPtr WNDPROC(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr OpenProcess(AccessRights dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, uint dwProcessId);
@@ -666,5 +821,109 @@ namespace Stroke
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryFullProcessImageName(IntPtr hProcess, uint dwFlags, StringBuilder lpExeName, ref uint lpdwSize);
 
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CallNextHookEx(IntPtr hHook, int nCode, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CreateWindowEx(WS_EX dwExStyle, string lpClassName, string lpWindowName, WS dwStyle, int X, int Y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr DefWindowProc(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr DispatchMessage([In] ref MSG lpMsg);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr GetAncestor(IntPtr hWnd, GA gaFlags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern int GetSystemMetrics(SM nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern int GetWindowLong(IntPtr hWnd, GWL nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool InvalidateRect(IntPtr hWnd, ref RECT lpRect, bool bErase);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern void PostQuitMessage(int nExitCode);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern uint SendInput(uint cInputs, ref INPUT pInput, int cbSize);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, COLORREF crKey, byte bAlpha, uint dwFlags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr SetWindowsHookEx(WH idHook, HOOKPROC lpfn, IntPtr hMod, uint dwThreadId);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern int SetWindowLong(IntPtr hWnd, GWL nIndex, int dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IA hWndInsertAfter, int X, int Y, int cx, int cy, SWP uFlags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ShowWindow(IntPtr hWnd, SW nCmdShow);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool TranslateMessage([In] ref MSG lpMsg);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort RegisterClassEx([In] ref WNDCLASSEX lpWndClass);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnhookWindowsHookEx(IntPtr hHook);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr WindowFromPoint(POINT Point);
+
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CreatePen(PS iStyle, int cWidth, COLORREF color);
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CreateSolidBrush(COLORREF color);
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LineTo(IntPtr hDC, int x, int y);
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool MoveToEx(IntPtr hDC, int x, int y, IntPtr lpPoint);
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr SelectObject([In] IntPtr hDC, [In] IntPtr hObject);
     }
 }

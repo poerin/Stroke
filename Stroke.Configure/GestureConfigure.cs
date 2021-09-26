@@ -78,7 +78,7 @@ namespace Stroke.Configure
             listViewGesture.HitTest(e.Location).Item.Selected = true;
             if (e.Button == MouseButtons.Right)
             {
-                ContextMenuStripGesture.Show(Control.MousePosition);
+                ContextMenuStripGesture.Show(MousePosition);
             }
         }
 

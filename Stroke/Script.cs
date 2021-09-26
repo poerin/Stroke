@@ -105,17 +105,14 @@ namespace Stroke
         {
             Task.Run(() =>
             {
-                Program.Stroke.Invoke((EventHandler)delegate
+                try
                 {
-                    try
-                    {
-                        Scripts.GetMethod(Functions[name]).Invoke(Instance, new object[] { mark });
-                    }
-                    catch (Exception exception)
-                    {
-                        MessageBox.Show(exception.Message);
-                    }
-                });
+                    Scripts.GetMethod(Functions[name]).Invoke(Instance, new object[] { mark });
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
             });
         }
 
