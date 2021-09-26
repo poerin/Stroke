@@ -144,7 +144,7 @@ namespace Stroke
                     }
 
                     stroking = true;
-                    API.SetWindowPos(Handle, API.IA.TOP, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
+                    API.SetWindowPos(Handle, API.IA.TOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
