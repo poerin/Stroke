@@ -90,7 +90,7 @@ namespace Stroke
                 return;
             }
 
-            Handle = API.CreateWindowEx(API.WS_EX.TRANSPARENT | API.WS_EX.NOACTIVATE | API.WS_EX.LAYERED | API.WS_EX.TOPMOST, WindowClass.lpszClassName, null, API.WS.CLIPCHILDREN | API.WS.CLIPSIBLINGS | API.WS.POPUP, Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height, IntPtr.Zero, IntPtr.Zero, WindowClass.hInstance, IntPtr.Zero);
+            Handle = API.CreateWindowEx(API.WS_EX.TRANSPARENT | API.WS_EX.NOACTIVATE | API.WS_EX.LAYERED | API.WS_EX.TOPMOST | API.WS_EX.NOACTIVATE, WindowClass.lpszClassName, null, API.WS.CLIPCHILDREN | API.WS.CLIPSIBLINGS | API.WS.POPUP, Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height, IntPtr.Zero, IntPtr.Zero, WindowClass.hInstance, IntPtr.Zero);
             if (Handle == IntPtr.Zero)
             {
                 return;
@@ -102,7 +102,7 @@ namespace Stroke
             MouseHook.MouseAction += MouseHook_MouseAction;
             Settings.Pen.PenChanged += Pen_PenChanged;
 
-            API.ShowWindow(Handle, API.SW.NORMAL);
+            API.ShowWindow(Handle, API.SW.SHOWNOACTIVATE);
             API.UpdateWindow(Handle);
 
             API.MSG message = new API.MSG();
@@ -142,8 +142,9 @@ namespace Stroke
                             return false;
                         }
                     }
-                    stroking = true;
 
+                    stroking = true;
+                    API.SetWindowPos(Handle, API.IA.TOP, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
