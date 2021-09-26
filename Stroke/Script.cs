@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Stroke
@@ -102,14 +103,20 @@ namespace Stroke
 
         public static void RunScript(string name, int mark)
         {
-            try
+            Task.Run(() =>
             {
-                Scripts.GetMethod(Functions[name]).Invoke(Instance, new object[] { mark });
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
+                Program.Stroke.Invoke((EventHandler)delegate
+                {
+                    try
+                    {
+                        Scripts.GetMethod(Functions[name]).Invoke(Instance, new object[] { mark });
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.Message);
+                    }
+                });
+            });
         }
 
     }

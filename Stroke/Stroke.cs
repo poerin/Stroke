@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -10,117 +9,63 @@ using System.Windows.Forms;
 
 namespace Stroke
 {
-    public static class Stroke
+    public partial class Stroke : Form
     {
-        private static IntPtr Handle;
-        private static Rectangle Bounds;
-        private static Draw draw;
-        private static bool stroking = false;
-        private static bool stroked = false;
-        private static bool special = false;
-        private static bool abolish = false;
-        private static bool filtering = false;
-        private static Point lastPoint = new Point(0, 0);
-        private static List<Point> drwaingPoints = new List<Point>();
-        private static readonly int threshold = 80;
-        private static int mark = 0;
+        private Draw draw;
+        private bool stroking = false;
+        private bool stroked = false;
+        private bool special = false;
+        private bool abolish = false;
+        private bool filtering = false;
+        private Point lastPoint = new Point(0, 0);
+        private List<Point> drwaingPoints = new List<Point>();
+        private readonly int threshold = 80;
+        private int mark = 0;
+
         public static IntPtr CurrentWindow { private set; get; }
         public static string CurrentProcessImagePath { private set; get; }
         public static Point KeyPoint { private set; get; }
 
 
-        private static IntPtr WindowProcedure(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam)
+        private void InitializeComponent()
         {
-            switch (uMsg)
-            {
-                case (uint)API.WindowMessages.WM_CREATE:
-                    Script.CompileScript();
-                    MouseHook.StartHook();
-                    break;
-                case (uint)API.WindowMessages.WM_CLOSE:
-                    API.DestroyWindow(hWnd);
-                    break;
-                case (uint)API.WindowMessages.WM_DESTROY:
-                    MouseHook.StopHook();
-                    draw.Dispose();
-                    API.PostQuitMessage(0);
-                    break;
-            }
-
-            return API.DefWindowProc(hWnd, uMsg, wParam, lParam);
+            SuspendLayout();
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.Black;
+            Bounds = SystemInformation.VirtualScreen;
+            ControlBox = false;
+            FormBorderStyle = FormBorderStyle.None;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "Stroke";
+            Opacity = Settings.Pen.Opacity;
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.Manual;
+            TransparencyKey = Color.Black;
+            ResumeLayout(false);
         }
 
-        [STAThread]
-        static void Main()
+        public Stroke()
         {
-            try
-            {
-                if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
-                {
-                    return;
-                }
-                Settings.ReadSettings();
-            }
-            catch
-            {
-                return;
-            }
-
-            Bounds = SystemInformation.VirtualScreen;
-
-            uint LWA_COLORKEY = 0x1;
-            uint LWA_ALPHA = 0x2;
-
-            API.WNDCLASSEX WindowClass = new API.WNDCLASSEX();
-            WindowClass.cbSize = (uint)Marshal.SizeOf(typeof(API.WNDCLASSEX));
-            WindowClass.style = API.CS.VREDRAW | API.CS.HREDRAW;
-            WindowClass.lpfnWndProc = WindowProcedure;
-            WindowClass.cbClsExtra = 0;
-            WindowClass.cbWndExtra = 0;
-            WindowClass.hInstance = API.GetModuleHandle(null);
-            WindowClass.hIcon = IntPtr.Zero;
-            WindowClass.hCursor = IntPtr.Zero;
-            WindowClass.hbrBackground = API.CreateSolidBrush(new API.COLORREF(0, 0, 0));
-            WindowClass.lpszMenuName = "";
-            WindowClass.lpszClassName = "Stroke";
-            WindowClass.hIconSm = IntPtr.Zero;
-
-            if (API.RegisterClassEx(ref WindowClass) == 0)
-            {
-                return;
-            }
-
-            Handle = API.CreateWindowEx(API.WS_EX.TRANSPARENT | API.WS_EX.NOACTIVATE | API.WS_EX.LAYERED | API.WS_EX.TOPMOST | API.WS_EX.NOACTIVATE, WindowClass.lpszClassName, null, API.WS.CLIPCHILDREN | API.WS.CLIPSIBLINGS | API.WS.POPUP, Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height, IntPtr.Zero, IntPtr.Zero, WindowClass.hInstance, IntPtr.Zero);
-            if (Handle == IntPtr.Zero)
-            {
-                return;
-            }
-
-            API.SetLayeredWindowAttributes(Handle, new API.COLORREF(0, 0, 0), (byte)(255 * Settings.Pen.Opacity), LWA_COLORKEY | LWA_ALPHA);
+            API.SetWindowLong(Handle, API.GWL.EXSTYLE, API.GetWindowLong(Handle, API.GWL.EXSTYLE) | (int)(API.WS_EX.TRANSPARENT | API.WS_EX.LAYERED | API.WS_EX.NOACTIVATE));
+            InitializeComponent();
 
             draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
             MouseHook.MouseAction += MouseHook_MouseAction;
             Settings.Pen.PenChanged += Pen_PenChanged;
-
-            API.ShowWindow(Handle, API.SW.SHOWNOACTIVATE);
-            API.UpdateWindow(Handle);
-
-            API.MSG message = new API.MSG();
-            while (API.GetMessage(out message, IntPtr.Zero, 0, 0))
-            {
-                API.TranslateMessage(ref message);
-                API.DispatchMessage(ref message);
-            }
         }
 
-        private static void Pen_PenChanged()
+
+        private void Pen_PenChanged()
         {
             draw.Dispose();
             GC.Collect();
             draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
         }
 
-        private static bool MouseHook_MouseAction(MouseHook.MouseActionArgs args)
+        private bool MouseHook_MouseAction(MouseHook.MouseActionArgs args)
         {
             if (args.MouseButton == Settings.StrokeButton)
             {
@@ -144,7 +89,7 @@ namespace Stroke
                     }
 
                     stroking = true;
-                    API.SetWindowPos(Handle, API.IA.TOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
+                    TopMost = true;
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
@@ -152,6 +97,7 @@ namespace Stroke
                 else if (args.MouseButtonState == MouseHook.MouseButtonStates.Up)
                 {
                     stroking = false;
+                    TopMost = false;
                     draw.Clear();
 
                     if (filtering)

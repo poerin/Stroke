@@ -55,7 +55,7 @@ namespace Stroke
                 {
                     j++;
                 }
-                this.Vectors[i] = vectors[j];
+                Vectors[i] = vectors[j];
             }
         }
 

@@ -35,6 +35,7 @@ namespace Stroke
 
         private static API.HOOKPROC procedure = HookCallback;
         private static IntPtr hook = IntPtr.Zero;
+
         public delegate bool MouseActionHandler(MouseActionArgs args);
         public static event MouseActionHandler MouseAction;
         public static bool Enable { private set; get; } = false;

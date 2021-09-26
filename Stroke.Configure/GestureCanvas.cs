@@ -12,11 +12,11 @@ namespace Stroke.Configure
         public GestureCanvas(Gesture gesture)
         {
             InitializeComponent();
-            this.Bounds = SystemInformation.VirtualScreen;
+            Bounds = SystemInformation.VirtualScreen;
             Gesture = gesture;
-            draw = new Draw(this.Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
-            this.Load += GestureCanvas_Load;
-            this.FormClosing += GestureCanvas_FormClosing;
+            draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
+            Load += GestureCanvas_Load;
+            FormClosing += GestureCanvas_FormClosing;
         }
 
         private void GestureCanvas_Load(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace Stroke.Configure
                     }
 
                     drwaingPoints.Clear();
-                    this.Close();
+                    Close();
                     return true;
                 }
             }

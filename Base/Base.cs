@@ -122,7 +122,7 @@ namespace Stroke
             {
                 if (nCode >= 0)
                 {
-                    Help.KBDLLHOOKSTRUCT hookStruct = (Help.KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Help.KBDLLHOOKSTRUCT));
+                    API.KBDLLHOOKSTRUCT hookStruct = (API.KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(API.KBDLLHOOKSTRUCT));
 
                     if (hookStruct.dwExtraInfo == (UIntPtr)0x7FuL)
                     {
@@ -132,7 +132,7 @@ namespace Stroke
                     Keys key = (Keys)hookStruct.vkCode;
                     KeyStates keyState = KeyStates.None;
 
-                    switch ((Help.KeyboardMessages)wParam)
+                    switch ((API.KeyboardMessages)wParam)
                     {
                         case API.KeyboardMessages.WM_KEYDOWN:
                             {
@@ -169,26 +169,26 @@ namespace Stroke
 
         public static void KeyDown(Keys key)
         {
-            Help.INPUT input = new Help.INPUT();
+            API.INPUT input = new API.INPUT();
             input.type = API.INPUTTYPE.KEYBOARD;
             input.ki.time = 0;
-            input.ki.wVk = (Help.VK)key;
+            input.ki.wVk = (API.VK)key;
             input.ki.dwExtraInfo = (UIntPtr)0x7FuL;
             input.ki.dwFlags = API.KEYEVENTF.EXTENDEDKEY | 0;
             input.ki.wScan = 0;
-            API.SendInput(1u, ref input, Marshal.SizeOf(typeof(Help.INPUT)));
+            API.SendInput(1u, ref input, Marshal.SizeOf(typeof(API.INPUT)));
         }
 
         public static void KeyUp(Keys key)
         {
-            Help.INPUT input = new Help.INPUT();
+            API.INPUT input = new API.INPUT();
             input.type = API.INPUTTYPE.KEYBOARD;
             input.ki.time = 0;
-            input.ki.wVk = (Help.VK)key;
+            input.ki.wVk = (API.VK)key;
             input.ki.dwExtraInfo = (UIntPtr)0x7FuL;
             input.ki.dwFlags = API.KEYEVENTF.EXTENDEDKEY | API.KEYEVENTF.KEYUP;
             input.ki.wScan = 0;
-            API.SendInput(1u, ref input, Marshal.SizeOf(typeof(Help.INPUT)));
+            API.SendInput(1u, ref input, Marshal.SizeOf(typeof(API.INPUT)));
         }
 
         public static void PressKeys(string keys)
