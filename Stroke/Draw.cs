@@ -25,13 +25,6 @@ namespace Stroke
             API.LineTo(canvas, end.X - rect.Left, end.Y - rect.Top);
         }
 
-        public void Clear()
-        {
-            API.RECT rect;
-            API.GetWindowRect(client, out rect);
-            API.InvalidateRect(client, ref rect, true);
-        }
-
         public void Dispose()
         {
             API.ReleaseDC(client, canvas);

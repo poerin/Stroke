@@ -44,6 +44,7 @@ namespace Stroke
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
             TransparencyKey = Color.Black;
+            Visible = false;
             ResumeLayout(false);
         }
 
@@ -90,6 +91,7 @@ namespace Stroke
 
                     stroking = true;
                     TopMost = true;
+                    Visible = true;
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
@@ -97,8 +99,8 @@ namespace Stroke
                 else if (args.MouseButtonState == MouseHook.MouseButtonStates.Up)
                 {
                     stroking = false;
+                    Visible = false;
                     TopMost = false;
-                    draw.Clear();
 
                     if (filtering)
                     {
@@ -113,6 +115,8 @@ namespace Stroke
                         abolish = false;
                         return true;
                     }
+
+                    Refresh();
 
                     if (stroked)
                     {
@@ -261,7 +265,7 @@ namespace Stroke
                                 if (action.Gesture == gesture)
                                 {
                                     abolish = true;
-                                    draw.Clear();
+                                    Refresh();
                                     drwaingPoints.Clear();
                                     Script.RunScript($"{Settings.ActionPackages[i].Name}.{action.Name}", mark);
                                     return true;
