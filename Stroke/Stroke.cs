@@ -44,7 +44,6 @@ namespace Stroke
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
             TransparencyKey = Color.Black;
-            Visible = false;
             ResumeLayout(false);
         }
 
@@ -90,8 +89,8 @@ namespace Stroke
                     }
 
                     stroking = true;
-                    TopMost = true;
-                    Visible = true;
+                    API.SetWindowPos(Handle, API.IA.TOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
+                    API.ShowWindow(Handle, API.SW.SHOWNOACTIVATE);
                     lastPoint = args.Location;
                     drwaingPoints.Add(args.Location);
                     return true;
@@ -101,8 +100,8 @@ namespace Stroke
                     stroking = false;
                     draw.Clear();
                     Refresh();
-                    Visible = false;
-                    TopMost = false;
+                    API.ShowWindow(Handle, API.SW.HIDE);
+                    API.SetWindowPos(Handle, API.IA.NOTOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
 
                     if (filtering)
                     {
