@@ -33,7 +33,7 @@ namespace Stroke
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Black;
-            Bounds = SystemInformation.VirtualScreen;
+            Bounds = new Rectangle(SystemInformation.VirtualScreen.X, SystemInformation.VirtualScreen.Y + 1, SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
             ControlBox = false;
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
@@ -49,8 +49,8 @@ namespace Stroke
 
         public Stroke()
         {
-            API.SetWindowLong(Handle, API.GWL.EXSTYLE, API.GetWindowLong(Handle, API.GWL.EXSTYLE) | (int)(API.WS_EX.TRANSPARENT | API.WS_EX.LAYERED | API.WS_EX.NOACTIVATE));
             InitializeComponent();
+            API.SetWindowLong(this.Handle, API.GWL.EXSTYLE, API.GetWindowLong(this.Handle, API.GWL.EXSTYLE) | (int)(API.WS_EX.TRANSPARENT | API.WS_EX.LAYERED | API.WS_EX.NOACTIVATE));
 
             draw = new Draw(Handle, API.CreatePen(API.PS.SOLID, Settings.Pen.Thickness, new API.COLORREF(Settings.Pen.Color.R, Settings.Pen.Color.G, Settings.Pen.Color.B)));
             MouseHook.MouseAction += MouseHook_MouseAction;
