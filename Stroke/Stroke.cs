@@ -89,6 +89,7 @@ namespace Stroke
                     }
 
                     stroking = true;
+                    Bounds = new Rectangle(SystemInformation.VirtualScreen.X, SystemInformation.VirtualScreen.Y + 1, SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
                     API.SetWindowPos(Handle, API.IA.TOPMOST, 0, 0, 0, 0, API.SWP.NOSIZE | API.SWP.NOMOVE | API.SWP.NOACTIVATE);
                     API.ShowWindow(Handle, API.SW.SHOWNOACTIVATE);
                     lastPoint = args.Location;
