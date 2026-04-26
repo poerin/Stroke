@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stroke", "Stroke\Stroke.csproj", "{4BF7E1C7-8683-47A3-99FF-76ECEDA97BB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stroke.Configure", "Stroke.Configure\Stroke.Configure.csproj", "{CD432871-EE0A-4448-A56C-202D4F401174}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{0B75B648-79B4-4849-932D-090CF19D8E27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BF7E1C7-8683-47A3-99FF-76ECEDA97BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF7E1C7-8683-47A3-99FF-76ECEDA97BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF7E1C7-8683-47A3-99FF-76ECEDA97BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF7E1C7-8683-47A3-99FF-76ECEDA97BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD432871-EE0A-4448-A56C-202D4F401174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD432871-EE0A-4448-A56C-202D4F401174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD432871-EE0A-4448-A56C-202D4F401174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD432871-EE0A-4448-A56C-202D4F401174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B75B648-79B4-4849-932D-090CF19D8E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B75B648-79B4-4849-932D-090CF19D8E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B75B648-79B4-4849-932D-090CF19D8E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B75B648-79B4-4849-932D-090CF19D8E27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EB858D2-822E-4055-8794-4705605BC5E8}
+	EndGlobalSection
+EndGlobal
