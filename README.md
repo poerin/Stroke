@@ -68,7 +68,7 @@ The Stroke release package includes a set of pre-configured, out-of-the-box defa
 Applicable to all Windows applications and system-wide scenarios.
 
 | Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
-|---------|-----------------|----------------|------------------------------|
+|---|:---:|---|---|
 | ↑ (Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑.png" width="32" alt="↑" /> | Copy | Home key |
 | ↓ (Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↓.png" width="32" alt="↓" /> | Paste | End key |
 | ↓↑ (Down-Then-Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↓↑.png" width="32" alt="↓↑" /> | Cut | N/A |
@@ -92,7 +92,7 @@ Applicable to all Windows applications and system-wide scenarios.
 Applicable to pre-configured common applications with tabbed interfaces. You can add adapted process rules according to your usage needs.
 
 | Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
-|---------|-----------------|----------------|------------------------------|
+|---|:---:|---|---|
 | ↖ (Up-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↖.png" width="32" alt="↖" /> | Close Active Tab | Close Window |
 | Wheel Up | N/A | Switch to Previous Tab | Volume Up |
 | Wheel Down | N/A | Switch to Next Tab | Volume Down |
@@ -101,15 +101,15 @@ Applicable to pre-configured common applications with tabbed interfaces. You can
 Applicable to both Windows File Explorer and mainstream web browsers.
 
 | Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
-|---------|-----------------|----------------|------------------------------|
+|---|:---:|---|---|
 | →← (Right-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→←.png" width="32" alt="→←" /> | Refresh | N/A |
-| →↑ (Right-Then-Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↑.png" width="32" alt="→↑" /> | Enter Full Screen | N/A |
+| →↑ (Right-Then-Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↑.png" width="32" alt="→↑" /> | Full Screen | N/A |
 
 ### File Explorer Exclusive Scope
 Applicable exclusively to Windows File Explorer.
 
 | Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
-|---------|-----------------|----------------|------------------------------|
+|---|:---:|---|---|
 | →↓ (Right-Then-Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↓.png" width="32" alt="→↓" /> | Create New Folder | N/A |
 | ↑← (Up-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑←.png" width="32" alt="↑←" /> | Navigate Up One Level | N/A |
 | ↑→ (Up-Then-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑→.png" width="32" alt="↑→" /> | Open New File Explorer Window | N/A |
@@ -118,7 +118,7 @@ Applicable exclusively to Windows File Explorer.
 Applicable exclusively to mainstream web browsers.
 
 | Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
-|---------|-----------------|----------------|------------------------------|
+|---|:---:|---|---|
 | →↓ (Right-Then-Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↓.png" width="32" alt="→↓" /> | Focus Address Bar | N/A |
 | ↑← (Up-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑←.png" width="32" alt="↑←" /> | Reopen Last Closed Tab | N/A |
 | ↑→ (Up-Then-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑→.png" width="32" alt="↑→" /> | Open New Tab | N/A |
@@ -139,13 +139,13 @@ While the designated gesture button is held, Stroke recognises two types of inpu
 ### Key Marks
 Pressing additional mouse buttons while drawing attaches a modifier to the gesture. Five standard buttons are available; one serves as the gesture trigger, leaving four that can be pressed individually or in combination. This yields 16 key mark states. The mark is passed to your script as an integer. Each button occupies a fixed bitmask; simultaneous presses are combined using bitwise OR. Every action's C# code is compiled into a method that receives this key mark as its parameter.
 
-| Button     | Mask         |
-|------------|--------------|
-| Left       | `0x00000001` |
-| Right      | `0x00000002` |
-| XButton1   | `0x00000004` |
-| XButton2   | `0x00000008` |
-| Middle     | `0x00000010` |
+| Button | Mask |
+|---|---|
+| Left | `0x00000001` |
+| Right | `0x00000002` |
+| XButton1 | `0x00000004` |
+| XButton2 | `0x00000008` |
+| Middle | `0x00000010` |
 
 ## Scripting with the Base Library
 
