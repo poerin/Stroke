@@ -15,6 +15,7 @@ Stroke triggers custom operations in response to mouse gestures. It intercepts i
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
+- [Default Gestures](#default-gestures)
 - [Core Concepts](#core-concepts)
     - [Action Packages](#action-packages)
     - [Gesture Recognition and Special Gestures](#gesture-recognition-and-special-gestures)
@@ -58,6 +59,71 @@ Stroke triggers custom operations in response to mouse gestures. It intercepts i
 4. Run `Stroke.Configure.exe` to customize gestures, actions, and other settings.
 
 > Running `Stroke.Configure.exe` automatically terminates any running `Stroke.exe` process to avoid conflicts.
+
+## Default Gestures
+
+The Stroke release package includes a set of pre-configured, out-of-the-box default gestures, with the right mouse button set as the default gesture trigger. These gestures are optimized for common Windows productivity scenarios, with context-aware scoping that organizes actions into scenario-specific packages. Corresponding actions are only activated when the process of the window under the cursor at the gesture start point matches the package rules. Some default gestures support alternative actions by holding the left mouse button while drawing, as listed in the "Left Button Key Mark Action" column of the table, marked as "N/A" if there is no corresponding function.
+
+### Global Scope
+Applicable to all Windows applications and system-wide scenarios.
+
+| Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
+|---------|-----------------|----------------|------------------------------|
+| ↑ (Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑.png" width="32" alt="↑" /> | Copy | Home key |
+| ↓ (Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↓.png" width="32" alt="↓" /> | Paste | End key |
+| ↓↑ (Down-Then-Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↓↑.png" width="32" alt="↓↑" /> | Cut | N/A |
+| ↑↓ (Up-Then-Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑↓.png" width="32" alt="↑↓" /> | Select All | N/A |
+| ↓← (Down-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↓←.png" width="32" alt="↓←" /> | Undo | N/A |
+| ↓→ (Down-Then-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↓→.png" width="32" alt="↓→" /> | Redo | N/A |
+| ← (Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/←.png" width="32" alt="←" /> | Back | Switch between other desktops you've created on the left |
+| → (Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→.png" width="32" alt="→" /> | Forward | Switch between other desktops you've created on the right |
+| ←→ (Left-Then-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/←→.png" width="32" alt="←→" /> | Play/Pause | Mute/Unmute |
+| ←↑ (Left-Then-Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/←↑.png" width="32" alt="←↑" /> | Previous Track | N/A |
+| ←↓ (Left-Then-Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/←↓.png" width="32" alt="←↓" /> | Next Track | N/A |
+| Wheel Up | N/A | N/A | Volume Up |
+| Wheel Down | N/A | N/A | Volume Down |
+| ↙ (Down-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↙.png" width="32" alt="↙" /> | Minimize Window | Disable Window Topmost |
+| ↗ (Up-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↗.png" width="32" alt="↗" /> | Maximize/Restore Window | Enable Window Topmost |
+| ↖ (Up-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↖.png" width="32" alt="↖" /> | Close Window | N/A |
+| ↘ (Down-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↘.png" width="32" alt="↘" /> | Open File Explorer (D: Drive) | Open File Explorer (C: Drive) |
+| Left Click | N/A | Enter Key | N/A |
+
+### Tab Scope
+Applicable to pre-configured common applications with tabbed interfaces. You can add adapted process rules according to your usage needs.
+
+| Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
+|---------|-----------------|----------------|------------------------------|
+| ↖ (Up-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↖.png" width="32" alt="↖" /> | Close Active Tab | Close Window |
+| Wheel Up | N/A | Switch to Previous Tab | Volume Up |
+| Wheel Down | N/A | Switch to Next Tab | Volume Down |
+
+### Applicable Scope: File Explorer & Web Browser
+Applicable to both Windows File Explorer and mainstream web browsers.
+
+| Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
+|---------|-----------------|----------------|------------------------------|
+| →← (Right-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→←.png" width="32" alt="→←" /> | Refresh | N/A |
+| →↑ (Right-Then-Up) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↑.png" width="32" alt="→↑" /> | Enter Full Screen | N/A |
+
+### File Explorer Exclusive Scope
+Applicable exclusively to Windows File Explorer.
+
+| Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
+|---------|-----------------|----------------|------------------------------|
+| →↓ (Right-Then-Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↓.png" width="32" alt="→↓" /> | Create New Folder | N/A |
+| ↑← (Up-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑←.png" width="32" alt="↑←" /> | Navigate Up One Level | N/A |
+| ↑→ (Up-Then-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑→.png" width="32" alt="↑→" /> | Open New File Explorer Window | N/A |
+
+### Web Browser Exclusive Scope
+Applicable exclusively to mainstream web browsers.
+
+| Gesture | Gesture Preview | Default Action | Left Button Key Mark Action |
+|---------|-----------------|----------------|------------------------------|
+| →↓ (Right-Then-Down) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/→↓.png" width="32" alt="→↓" /> | Focus Address Bar | N/A |
+| ↑← (Up-Then-Left) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑←.png" width="32" alt="↑←" /> | Reopen Last Closed Tab | N/A |
+| ↑→ (Up-Then-Right) | <img src="https://raw.githubusercontent.com/poerin/Stroke/main/Material/GestureImages/↑→.png" width="32" alt="↑→" /> | Open New Tab | N/A |
+
+> The web browser exclusive action package is pre-configured to support only firefox, chrome, edge and zen browsers by default. You can add process rules for other browsers according to your usage needs.
 
 ## Core Concepts
 
