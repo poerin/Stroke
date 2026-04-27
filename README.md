@@ -45,6 +45,7 @@ Stroke triggers custom operations in response to mouse gestures. It intercepts i
 - **Programmable Actions:** Gestures invoke C# code that is compiled at startup, providing full access to the .NET runtime.
 - **Context‑Aware Matching:** Actions are organized into packages that become active only when the foreground process path satisfies a user‑defined regular expression.
 - **Global Keyboard Hooks:** Low‑level keyboard events are exposed directly to scripts, allowing sophisticated input interception and automation.
+- **Plugin Extensibility:** You can write your own plugins in C#. A collection of ready-to-use plugins is available at [StrokePlugins](https://github.com/poerin/StrokePlugins).
 
 ## Getting Started
 
