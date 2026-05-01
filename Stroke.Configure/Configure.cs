@@ -336,6 +336,22 @@ namespace Stroke.Configure
 
         private void textBoxCode_TextChanged(object sender, EventArgs e)
         {
+            string originalText = textBoxCode.Text;
+            string normalizedText = originalText.Replace("\r\n", "\n").Replace("\n", "\r\n");
+
+            if (normalizedText != originalText)
+            {
+                int caretPosition = textBoxCode.SelectionStart;
+                string textBeforeCaret = originalText.Substring(0, caretPosition);
+                int lineFeedCountBeforeCaret = textBeforeCaret.Length - textBeforeCaret.Replace("\n", "").Length;
+                int adjustedCaretPosition = caretPosition + lineFeedCountBeforeCaret;
+
+                textBoxCode.TextChanged -= textBoxCode_TextChanged;
+                textBoxCode.Text = normalizedText;
+                textBoxCode.SelectionStart = Math.Min(adjustedCaretPosition, textBoxCode.TextLength);
+                textBoxCode.TextChanged += textBoxCode_TextChanged;
+            }
+
             if (CurrentAction != null)
             {
                 CurrentAction.Code = Regex.Replace(textBoxCode.Text, @"(?<=(^|\n)\s*)\t", "    ");
